@@ -1,6 +1,7 @@
 const express=require("express");
 const dotenv=require("dotenv");
 const connectDB=require("./config/db");
+const projectRoutes=require("./routes/projectRoutes")
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 
 app.use("/api/auth",authRoutes);
+app.use("api/projects",projectRoutes);
 
 const PORT=process.env.PORT || 5000;
 
