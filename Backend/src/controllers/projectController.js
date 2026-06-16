@@ -1,4 +1,4 @@
-const project=require("../models/Project")
+const Project=require("../models/Project")
 
 const createProject=async(req,res)=>{
     try{
@@ -39,7 +39,67 @@ const getProjects=async(req,res)=>{
         })
     }
 }
+
+
+const getProjectById=async (req,res)=>{
+    try{
+        const project=await Project.findById(req.params.id);
+
+        if(!project){
+            return res.status(404).json({
+                message:"Project not found"
+            })
+        }
+        if(project.owner.toString() !== req.user.id){
+            return res.status(403).json({
+                message:"access denied"
+            })
+        }
+        res.status(200).json(project);
+    }catch(error){
+        console.error(error);
+
+        res.status(500).json({
+            message:"server error"
+        })
+    }
+    }
+
+    const updateProject=async (req,res)=>{
+        try{
+            const project=await Project.findById(req.params.id);
+
+            if(!project){
+                return res.status(400).json({
+                    message:"project not found"
+                })
+            }
+            if(project.owner.toString() !== req.user.id){
+                return res.status(403).json({
+                    message:"Access denied"
+                })
+            }
+            const updateProject=await Project.findByIdAndUpdate(
+                req.params.id,
+                req.body,
+                {
+                    new:true,
+
+                }
+            )
+            res.status(200).json(updatedProject)
+                }catch(error){
+                    console.error(error);
+                    res.status(500).json({
+                        message:"server error",
+                    })
+                }
+    }
+
+
+
 module.exports={
     createProject,
-    getProjects
+    getProjects,getProjectById,
+    updateProject
 }

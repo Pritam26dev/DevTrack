@@ -10,6 +10,11 @@ const projectSchema=new mongoose.Schema(
             type:String,
             default:""
         },
+        status:{
+            type:String,
+            enum:["active","paused","completed"],
+            default:"active"
+        },
         owner:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"User",
