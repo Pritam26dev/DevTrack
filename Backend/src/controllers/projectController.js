@@ -14,7 +14,7 @@ const createProject=async(req,res)=>{
             description,
             owner:req.user.id,
         })
-        req.status(201).json(project);
+        res.status(201).json(project);
     }catch(error){
         console.error(error);
 
