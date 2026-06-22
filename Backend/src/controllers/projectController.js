@@ -6,7 +6,7 @@ const createProject=async(req,res)=>{
     
         if(!title){
             return res.status(400).json({
-                messgae:"Title is required",
+                message:"Title is required",
             })
         }
         const project=await Project.create({
@@ -35,7 +35,7 @@ const getProjects=async(req,res)=>{
         console.error(error)
 
         res.status(500).json({
-            messgae:"server error"
+            message:"server error"
         })
     }
 }
@@ -70,7 +70,7 @@ const getProjectById=async (req,res)=>{
             const project=await Project.findById(req.params.id);
 
             if(!project){
-                return res.status(400).json({
+                return res.status(404).json({
                     message:"project not found"
                 })
             }
@@ -79,7 +79,7 @@ const getProjectById=async (req,res)=>{
                     message:"Access denied"
                 })
             }
-            const updateProject=await Project.findByIdAndUpdate(
+            const updatedProject=await Project.findByIdAndUpdate(
                 req.params.id,
                 req.body,
                 {
